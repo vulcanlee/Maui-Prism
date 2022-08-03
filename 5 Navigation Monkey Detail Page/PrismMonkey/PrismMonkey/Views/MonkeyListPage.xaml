@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewmodel="clr-namespace:PrismMonkey.ViewModels"
+             xmlns:model="clr-namespace:PrismMonkey.Models"
+             x:DataType="viewmodel:MonkeyListPageViewModel"
+             x:Class="PrismMonkey.Views.MonkeyListPage"
+             Title="所有猴子清單">
+
+  <Grid
+    ColumnDefinitions="*,*"
+    ColumnSpacing="5"
+    RowDefinitions="*,Auto"
+    RowSpacing="0"
+    >
+    <CollectionView
+      Grid.ColumnSpan="2"
+      ItemsSource="{Binding Monkeys}"
+      BackgroundColor="Transparent"
+      SelectionMode="None">
+
+      <CollectionView.ItemTemplate>
+        <DataTemplate x:DataType="model:Monkey">
+          <Grid Padding="10">
+            <Frame HeightRequest="125" >
+              <Frame.GestureRecognizers>
+                <TapGestureRecognizer
+                    Command="{Binding Source={RelativeSource AncestorType={x:Type viewmodel:MonkeyListPageViewModel}},
+                    Path=GoToDetailsCommand}" CommandParameter="{Binding .}"/>
+              </Frame.GestureRecognizers>
+              <Grid Padding="0" ColumnDefinitions="125,*">
+                <Image
+                    Aspect="AspectFill"
+                    HeightRequest="125" WidthRequest="125"
+                    Source="{Binding Image}"
+                    />
+                <VerticalStackLayout
+                    Grid.Column="1"
+                    Padding="10">
+                  <Label Text="{Binding Name}" />
+                  <Label Text="{Binding Location}" />
+                </VerticalStackLayout>
+              </Grid>
+            </Frame>
+          </Grid>
+        </DataTemplate>
+      </CollectionView.ItemTemplate>
+    </CollectionView>
+
+    <Button
+      Grid.Row="1" Grid.Column="0"
+      Margin="8"
+      Command="{Binding GetMonkeysCommand}"
+      IsEnabled="{Binding IsNotBusy}"
+      Text="Get Monkeys" />
+
+    <ActivityIndicator
+      Grid.RowSpan="2" Grid.ColumnSpan="2"
+      HorizontalOptions="FillAndExpand"
+      VerticalOptions="CenterAndExpand"
+      IsRunning="{Binding IsBusy}" IsVisible="{Binding IsBusy}"
+      />
+  </Grid>
+
+</ContentPage>
