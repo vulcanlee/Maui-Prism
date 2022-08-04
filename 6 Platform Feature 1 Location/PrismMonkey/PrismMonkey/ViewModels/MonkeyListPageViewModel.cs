@@ -30,10 +30,6 @@
         /// </summary>
         public ObservableCollection<Monkey> Monkeys { get; set; } = new();
         /// <summary>
-        /// 是否有觸發 下拉更新 手勢條件
-        /// </summary>
-        public bool IsRefreshing { get; set; }
-        /// <summary>
         /// 是否正在忙碌要從網路上下載猴子清單的 JSON 內容
         /// </summary>
         public bool IsBusy { get; set; }
@@ -186,7 +182,6 @@
             finally
             {
                 IsBusy = false;
-                IsRefreshing = false;
             }
         }
         #endregion
